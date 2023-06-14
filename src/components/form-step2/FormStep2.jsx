@@ -1,42 +1,57 @@
-import { Box, Text, Textarea, RadioGroup, Stack, Radio, Icon } from '@chakra-ui/react';
-import { CurrencyDollarIcon, HandThumbUpIcon } from '@heroicons/react/24/outline';
+import { Box, Textarea, Heading, Tag, Grid } from "@chakra-ui/react";
+import {
+  CurrencyDollarIcon,
+  HandThumbUpIcon,
+} from "@heroicons/react/24/outline";
+import ValueSlider from "../value-slider/ValueSlider";
+import useFormStore from "@/store/formStore";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const FormStep2 = () => {
+  const router = useRouter();
+
+  const [cost, setCost] = useFormStore((state) => [state.cost, state.setCost]);
+  const [data, setData] = useFormStore((state) => [state.data, state.setData]);
+
+  useEffect(() => {
+    const { co, da } = router.query;
+    if (co) {
+      console.log("updating cost to ", co);
+      setCost(Number(co));
+    }
+    if (da) {
+      console.log("updating data to ", da);
+      setData(Number(da));
+    }
+  }, [router.query, setCost, setData]);
+
   return (
     <Box>
-    <Text>Step 2: Test</Text>
-    <Text>To verify that, we will</Text>
-    <Textarea bg='white' placeholder='Write your hypothesis here' />
-    <Text>Test Cost</Text>
-    <RadioGroup>
-      <Stack direction='row'>
-        <Radio value='1'>
-          <Icon boxSize={4} as={CurrencyDollarIcon} />
-        </Radio>
-        <Radio value='2'>
-          <Icon boxSize={6} as={CurrencyDollarIcon} />
-        </Radio>
-        <Radio value='3'>
-          <Icon boxSize={8} as={CurrencyDollarIcon} />
-        </Radio>
-      </Stack>
-    </RadioGroup>
-    <Text>Data Reliability</Text>
-    <RadioGroup>
-      <Stack direction='row'>
-        <Radio value='1'>
-          <Icon boxSize={4} as={HandThumbUpIcon} />
-        </Radio>
-        <Radio value='2'>
-          <Icon boxSize={6} as={HandThumbUpIcon} />
-        </Radio>
-        <Radio value='3'>
-          <Icon boxSize={8} as={HandThumbUpIcon} />
-        </Radio>
-      </Stack>
-    </RadioGroup>
-  </Box>
-  )
-}
+      <Heading as='h3' size='sm' my='3'>
+        Step 2: Test
+      </Heading>
+      <Grid templateColumns='50% 20% 20%' gap='6'>
+        <Tag bg='white' borderRadius='0'>
+          <Heading as='h3' size='md'>
+            To verify that, we will
+          </Heading>
+        </Tag>
+
+        <ValueSlider
+          icon={CurrencyDollarIcon}
+          onChange={setCost}
+          value={cost}
+        />
+        <ValueSlider icon={HandThumbUpIcon} onChange={setData} value={data} />
+      </Grid>
+      <Textarea
+        bg='white'
+        borderRadius='0'
+        placeholder='Write your hypothesis here'
+      />
+    </Box>
+  );
+};
 
 export default FormStep2;

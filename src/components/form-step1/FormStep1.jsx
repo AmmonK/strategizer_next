@@ -1,28 +1,49 @@
-import { Box, Text, Textarea, RadioGroup, Stack, Radio, Icon } from '@chakra-ui/react';
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
+import { Box, Textarea, Heading, Tag, Grid } from "@chakra-ui/react";
+import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import ValueSlider from "../value-slider/ValueSlider";
+import useFormStore from "@/store/formStore";
+
+import { useRouter } from 'next/router';
+import { useEffect } from "react";
 
 const FormStep1 = () => {
+  const router = useRouter()
+  const critical = useFormStore((state) => state.critical);
+  const setCritical = useFormStore((state) => state.setCritical);
+
+  useEffect(() => {
+    const {cr} = router.query;
+    if(cr) {
+      console.log('updating critical to ', cr);
+      setCritical(Number(cr));}
+  }, [router.query, setCritical])
+
   return (
     <Box>
-    <Text>Step 1: Hypothesis</Text>
-    <Text>We believe that</Text>
-    <Textarea bg='white' placeholder='Write your hypothesis here' />
-    <Text>Critical</Text>
-    <RadioGroup>
-      <Stack direction='row'>
-        <Radio value='1'>
-          <Icon boxSize={4} as={ExclamationTriangleIcon} />
-        </Radio>
-        <Radio value='2'>
-          <Icon boxSize={6} as={ExclamationTriangleIcon} />
-        </Radio>
-        <Radio value='3'>
-          <Icon boxSize={8} as={ExclamationTriangleIcon} />
-        </Radio>
-      </Stack>
-    </RadioGroup>
-  </Box>
-  )
-}
+      <Heading as='h3' size='sm' my='3'>
+        Step 1: Hypothesis {critical}
+      </Heading>
+
+      <Grid templateColumns='50% 20%' gap='6'>
+        <Tag bg='white' borderRadius='0'>
+          <Heading as='h3' size='md'>
+            We believe that
+          </Heading>
+        </Tag>
+
+        <ValueSlider
+          icon={ExclamationTriangleIcon}
+          onChange={setCritical}
+          value={critical}
+        />
+      </Grid>
+      <Textarea
+        bg='white'
+        borderRadius='0'
+        placeholder='Write your hypothesis here'
+      />
+    </Box>
+  );
+};
 
 export default FormStep1;
