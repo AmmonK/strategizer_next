@@ -1,10 +1,10 @@
-import { Button } from "@chakra-ui/react";
+import { Button, Icon, Grid } from "@chakra-ui/react";
 import formStore from "@/store/formStore";
 import { useState } from "react";
+import { ClipboardDocumentIcon } from "@heroicons/react/24/outline";
 
 const CalcFields = () => {
-
-  const [calcValue, setCalcValue] = useState('');
+  const [calcValue, setCalcValue] = useState("");
 
   const testName = formStore((state) => state.testName);
   const deadline = formStore((state) => state.deadline);
@@ -17,25 +17,49 @@ const CalcFields = () => {
 
   const hypothesis = formStore((state) => state.hypothesis);
   const test = formStore((state) => state.test);
-  const metric= formStore((state) => state.metric);
+  const metric = formStore((state) => state.metric);
   const criteria = formStore((state) => state.criteria);
 
   const calcUrl = () => {
     const form = {
-      testName, deadline, assignedTo, duration, critical, cost, data, time, hypothesis, test, metric, criteria
-    }
+      testName,
+      deadline,
+      assignedTo,
+      duration,
+      critical,
+      cost,
+      data,
+      time,
+      hypothesis,
+      test,
+      metric,
+      criteria,
+    };
     console.log(form);
     const encoded = btoa(JSON.stringify(form));
-    console.log(encoded)
+    console.log(encoded);
     setCalcValue(encoded);
-  }
+    navigator.clipboard.writeText(encoded);
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(calcValue);
+  };
 
   return (
     <>
-    <Button colorScheme='blue' onClick={calcUrl}>Button</Button>
-    {calcValue}
+      <Grid templateColumns='66% 30%' gap='3'>
+        <Button colorScheme='blue' onClick={calcUrl}>
+          Generate Short Code
+        </Button>
+        <Button colorScheme='blue' variant='solid' onClick={copyToClipboard}>
+          <Icon boxSize={4} as={ClipboardDocumentIcon} />
+        </Button>
+      </Grid>
+      {calcValue}
+      <a href={'http://localhost:3000/' + calcValue}>link</a>
     </>
-  )
-}
+  );
+};
 
 export default CalcFields;

@@ -8,7 +8,7 @@ const FormHeading = () => {
           Test Card
         </Heading>
         <Heading as='h3' size='lg'>
-          Strategizer
+          
         </Heading>
       </Flex>
     </Box>
