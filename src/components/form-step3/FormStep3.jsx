@@ -2,20 +2,11 @@ import { Box, Textarea, Heading, Tag, Grid } from "@chakra-ui/react";
 import { ClockIcon } from "@heroicons/react/24/outline";
 import ValueSlider from "../value-slider/ValueSlider";
 import useFormStore from "@/store/formStore";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
 
 const FormStep3 = () => {
 
-  const router = useRouter();
   const [time, setTime] = useFormStore((state) => [state.time, state.setTime]);
-
-  useEffect(() => {
-    const {ti} = router.query;
-    if(ti) {
-      console.log('updating time to ', ti);
-      setTime(Number(ti));}
-  }, [router.query, setTime])
+  const [metric, setMetric] = useFormStore((state) => [state.metric, state.setMetric]);
 
   return (
     <Box>
@@ -36,6 +27,8 @@ const FormStep3 = () => {
         bg='white'
         borderRadius='0'
         placeholder='Write your hypothesis here'
+        value={metric}
+        onChange={(event) => setMetric(event.target.value)}
       />
     </Box>
   );

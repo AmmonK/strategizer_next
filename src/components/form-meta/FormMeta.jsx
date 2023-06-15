@@ -1,10 +1,7 @@
 import { Box, Grid, Input } from "@chakra-ui/react";
 import formStore from "@/store/formStore";
-import { useEffect } from "react";
-import { useRouter } from "next/router";
 
 const FormMeta = () => {
-  const router = useRouter();
 
   const [testName, setTestName] = formStore((state) => [
     state.testName,
@@ -22,17 +19,6 @@ const FormMeta = () => {
     state.duration,
     state.setDuration,
   ]);
-
-  useEffect(() => {
-    const { txt } = router.query;
-    if (txt) {
-      let parsed = JSON.parse(atob(txt));
-      if(parsed.testName) setTestName(parsed.testName);
-      if(parsed.deadline) setDeadline(parsed.deadline);
-      if(parsed.assignedTo) setAssignedTo(parsed.assignedTo);
-      if(parsed.duration) setDuration(parsed.duration);
-    }
-  }, [router.query, setTestName]);
 
   return (
     <Box>

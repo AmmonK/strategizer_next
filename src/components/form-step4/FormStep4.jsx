@@ -1,6 +1,10 @@
 import { Box, Textarea, Heading, Tag, Grid } from "@chakra-ui/react";
+import useFormStore from "@/store/formStore";
 
 const FormStep4 = () => {
+
+  const [criteria, setCriteria] = useFormStore((state) => [state.criteria, state.setCriteria]);
+
   return (
     <Box>
       <Heading as='h3' size='sm' my='3'>
@@ -18,6 +22,8 @@ const FormStep4 = () => {
         bg='white'
         borderRadius='0'
         placeholder='Write your hypothesis here'
+        value={criteria}
+        onChange={(event) => setCriteria(event.target.value)}
       />
     </Box>
   );

@@ -17,6 +17,15 @@ const useFormStore = create((set) => ({
   setAssignedTo: (assignedTo) => set({ assignedTo }),
   duration: '',
   setDuration: (duration) => set({ duration }),
+
+  hypothesis: '',
+  setHypothesis: (hypothesis) => set({ hypothesis }),
+  test: '',
+  setTest: (test) => set({ test }),
+  metric: '',
+  setMetric: (metric) => set({ metric }),
+  criteria: '',
+  setCriteria: (criteria) => set({ criteria }),
 }));
 
 export default useFormStore;

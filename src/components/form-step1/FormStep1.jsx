@@ -3,25 +3,18 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import ValueSlider from "../value-slider/ValueSlider";
 import useFormStore from "@/store/formStore";
 
-import { useRouter } from 'next/router';
-import { useEffect } from "react";
-
 const FormStep1 = () => {
-  const router = useRouter()
   const critical = useFormStore((state) => state.critical);
   const setCritical = useFormStore((state) => state.setCritical);
-
-  useEffect(() => {
-    const {cr} = router.query;
-    if(cr) {
-      console.log('updating critical to ', cr);
-      setCritical(Number(cr));}
-  }, [router.query, setCritical])
+  const [hypothesis, setHypothesis] = useFormStore((state) => [
+    state.hypothesis,
+    state.setHypothesis,
+  ]);
 
   return (
     <Box>
       <Heading as='h3' size='sm' my='3'>
-        Step 1: Hypothesis {critical}
+        Step 1: Hypothesis
       </Heading>
 
       <Grid templateColumns='50% 20%' gap='6'>
@@ -41,6 +34,8 @@ const FormStep1 = () => {
         bg='white'
         borderRadius='0'
         placeholder='Write your hypothesis here'
+        onChange={(event) => setHypothesis(event.target.value)}
+        value={hypothesis}
       />
     </Box>
   );

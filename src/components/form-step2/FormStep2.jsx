@@ -5,26 +5,11 @@ import {
 } from "@heroicons/react/24/outline";
 import ValueSlider from "../value-slider/ValueSlider";
 import useFormStore from "@/store/formStore";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-
 const FormStep2 = () => {
-  const router = useRouter();
 
   const [cost, setCost] = useFormStore((state) => [state.cost, state.setCost]);
   const [data, setData] = useFormStore((state) => [state.data, state.setData]);
-
-  useEffect(() => {
-    const { co, da } = router.query;
-    if (co) {
-      console.log("updating cost to ", co);
-      setCost(Number(co));
-    }
-    if (da) {
-      console.log("updating data to ", da);
-      setData(Number(da));
-    }
-  }, [router.query, setCost, setData]);
+  const [test, setTest] = useFormStore((state) => [state.test, state.setTest]);
 
   return (
     <Box>
@@ -49,6 +34,8 @@ const FormStep2 = () => {
         bg='white'
         borderRadius='0'
         placeholder='Write your hypothesis here'
+        value={test}
+        onChange={(event) => setTest(event.target.value)}
       />
     </Box>
   );
