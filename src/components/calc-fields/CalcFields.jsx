@@ -1,10 +1,12 @@
 import { Button, Icon, Grid } from "@chakra-ui/react";
 import formStore from "@/store/formStore";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ClipboardDocumentIcon } from "@heroicons/react/24/outline";
 
 const CalcFields = () => {
   const [calcValue, setCalcValue] = useState("");
+  const [hostname, setHostname] = useState("");
+
 
   const testName = formStore((state) => state.testName);
   const deadline = formStore((state) => state.deadline);
@@ -19,6 +21,10 @@ const CalcFields = () => {
   const test = formStore((state) => state.test);
   const metric = formStore((state) => state.metric);
   const criteria = formStore((state) => state.criteria);
+
+  useEffect(() => {
+    setHostname(window.location.hostname);
+  }, []);
 
   const calcUrl = () => {
     const form = {
@@ -57,7 +63,7 @@ const CalcFields = () => {
         </Button>
       </Grid>
       {calcValue}
-      <a href={window.location.hostname + "/" + calcValue}>link</a>
+      <a href={'http://' + hostname + "/" + calcValue}>link</a>
     </>
   );
 };
