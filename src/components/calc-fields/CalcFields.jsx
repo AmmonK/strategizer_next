@@ -57,7 +57,7 @@ const CalcFields = () => {
         </Button>
       </Grid>
       {calcValue}
-      <a href={'http://localhost:3000/' + calcValue}>link</a>
+      <a href={window.location.hostname + "/" + calcValue}>link</a>
     </>
   );
 };
